@@ -46,14 +46,15 @@ define(function () {
 			}
 			return node;
 		},
-		formatString: function (xml) {
+		formatString: function (xml, spaces) {
+		    xml = xml.replace(/(>)(<)(\/*)/g, '$1\r\n$2$3');
+		    spaces = spaces || 4;
 		    var formatted = '';
-		    var reg = /(>)(<)(\/*)/g;
-		    xml = xml.replace(reg, '$1\r\n$2$3');
 		    var pad = 0;
 
 		    _.each(xml.split('\r\n'), function(node, index) {
 		        var indent = 0;
+		        var padding = '';
 		        if (node.match( /.+<\/\w[^>]*>$/ )) {
 		            indent = 0;
 		        }
@@ -68,9 +69,8 @@ define(function () {
 		        else {
 		            indent = 0;
 		        }
-		        var padding = '';
 		        for (var i = 0; i < pad; i++) {
-		            padding += '  ';
+		            padding += new Array(spaces).join(' ');
 		        }
 		        formatted += padding + node + '\r\n';
 		        pad += indent;
