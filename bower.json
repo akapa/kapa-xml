@@ -2,7 +2,7 @@
   "name": "kapa/xml",
   "version": "0.0.0",
   "description": "XML tools for Javascript",
-  "main": "Xml.js",
+  "main": "xml.js",
   "keywords": [
     "xml"
   ],
