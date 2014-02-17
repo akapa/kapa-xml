@@ -1,0 +1,20 @@
+{
+  "name": "kapa/xml",
+  "version": "0.0.0",
+  "description": "XML tools for Javascript",
+  "main": "Xml.js",
+  "keywords": [
+    "xml"
+  ],
+  "authors": [
+    "Kapa"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
