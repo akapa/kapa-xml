@@ -1,6 +1,6 @@
 {
   "name": "kapa/xml",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "XML tools for Javascript",
   "main": "xml.js",
   "keywords": [
