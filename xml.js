@@ -77,8 +77,19 @@ define(function () {
 		 * @returns {Element|null}
 		 */
 		getClosestAncestor: function (node, namespace, tagname) {
+			return getFirstFilteredAncestor(node, function () {
+				return node.namespaceURI === namespace && node.localName === tagname;
+			});
+		},
+		/**
+		 * Returns the closest ancestor of the given node that satisfies a filter function.
+		 * @param {Element} node - A DOM element.
+		 * @param {Function} filterFunction - The filter function that will run for every ancestor. Receives the current node as a parameter, returning a truthy value will stop the search and return the current node.
+		 * @returns {Element|null}
+		 */
+		getFirstFilteredAncestor: function (node, filterFunction) {
 			var node = node.parentElement;
-			while (!(node.namespaceURI === namespace && node.localName === tagname)) {
+			while (!filterFunction(node)) {
 				node = node.parentElement;
 				if (!node) {
 					return null;
