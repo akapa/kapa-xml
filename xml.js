@@ -35,14 +35,14 @@ define(function () {
 		 */
 		parseToDom: function (s) {
 			if (typeof window.DOMParser != "undefined") {
-		        return (new window.DOMParser()).parseFromString(s, "text/xml");
+				return (new window.DOMParser()).parseFromString(s, "text/xml");
 			} else if (typeof window.ActiveXObject != "undefined" && new window.ActiveXObject("Microsoft.XMLDOM")) {
-			    var xmlDoc = new window.ActiveXObject("Microsoft.XMLDOM");
-			    xmlDoc.async = "false";
-			    xmlDoc.loadXML(s);
-			    return xmlDoc;
+				var xmlDoc = new window.ActiveXObject("Microsoft.XMLDOM");
+				xmlDoc.async = "false";
+				xmlDoc.loadXML(s);
+				return xmlDoc;
 			} else {
-			    throw new Error("No XML parser found.");
+				throw new Error("No XML parser found.");
 			}
 		},
 		/**
@@ -88,7 +88,7 @@ define(function () {
 		 * @returns {Element|null}
 		 */
 		getFirstFilteredAncestor: function (node, filterFunction) {
-			var node = node.parentElement;
+			node = node.parentElement;
 			while (!filterFunction(node)) {
 				node = node.parentElement;
 				if (!node) {
@@ -103,37 +103,39 @@ define(function () {
 		 * @param {number} [spaces=4] - The number of spaces to use for one level of indentation.
 		 * @returns {string}
 		 */
-		formatString: function (xml, spaces) {
-		    xml = xml.replace(/(>)(<)(\/*)/g, '$1\r\n$2$3');
-		    spaces = spaces || 4;
-		    var formatted = '';
-		    var pad = 0;
+		formatString: function (str, spaces) {
+			str = str.replace(/(>)(<)(\/*)/g, '$1\n$2$3');
+			spaces = spaces || 4;
+			var formatted = '';
+			var pad = 0;
 
-		    _.each(xml.split('\r\n'), function(node, index) {
-		        var indent = 0;
-		        var padding = '';
-		        if (node.match( /.+<\/\w[^>]*>$/ )) {
-		            indent = 0;
-		        }
-		        else if (node.match( /^<\/\w/ )) {
-		            if (pad != 0) {
-		                pad -= 1;
-		            }
-		        }
-		        else if (node.match( /^<\w[^>]*[^\/]>.*$/ )) {
-		            indent = 1;
-		        }
-		        else {
-		            indent = 0;
-		        }
-		        for (var i = 0; i < pad; i++) {
-		            padding += new Array(spaces).join(' ');
-		        }
-		        formatted += padding + node + '\r\n';
-		        pad += indent;
-		    });
+			_.each(str.split('\n'), function(node, index) {
+				node = node.trim();
+				if (!node) return;
+				var indent = 0;
+				var padding = '';
+				if (node.match( /.+<\/\w[^>]*>$/ )) {
+					indent = 0;
+				}
+				else if (node.match( /^<\/\w/ )) {
+					if (pad !== 0) {
+						pad -= 1;
+					}
+				}
+				else if (node.match( /^<\w[^>]*[^\/]>.*$/ )) {
+					indent = 1;
+				}
+				else {
+					indent = 0;
+				}
+				for (var i = 0; i < pad; i++) {
+					padding += new Array(spaces).join(' ');
+				}
+				formatted += padding + node + '\n';
+				pad += indent;
+			});
 
-		    return formatted;
+			return formatted;
 		}
 	};
 
