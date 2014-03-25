@@ -77,7 +77,7 @@ define(function () {
 		 * @returns {Element|null}
 		 */
 		getClosestAncestor: function (node, namespace, tagname) {
-			return getFirstFilteredAncestor(node, function () {
+			return this.getFirstFilteredAncestor(node, function () {
 				return node.namespaceURI === namespace && node.localName === tagname;
 			});
 		},
