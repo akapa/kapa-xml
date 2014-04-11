@@ -69,6 +69,40 @@ define(function () {
 		setNodeText: function (node, value) {
 			node.textContent = value;
 		},
+		getPreviousElement: function (node) {
+			var current = node.previousSibling;
+			while (current && current.nodeType !== 1) {
+				current = current.previousSibling;
+			}
+			return current;
+		},
+		getNextElement: function (node) {
+			var current = node.nextSibling;
+			while (current && current.nodeType !== 1) {
+				current = current.nextSibling;
+			}
+			return current;
+		},
+		remove: function (node) {
+			node.parentNode.removeChild(node);
+		},
+		resolveNs: function (shortNs, elem) {
+			var nsr = elem.ownerDocument.createNSResolver(elem);
+			var ns = nsr.lookupNamespaceURI(shortNs);
+			if (ns !== null) {
+				return ns;
+			}
+			else {
+				var xmlns = 'xmlns:' + shortNs;
+				var filter = function (node) {
+					return node.getAttribute(xmlns) !== null;
+				};
+				var xmlnsNode = filter(elem) ?
+					elem :
+					xml.getFirstFilteredAncestor(elem, filter);
+				return xmlnsNode.getAttribute(xmlns);
+			}
+		},
 		/**
 		 * Returns the closest ancestor of the given node with the given namespace and name.
 		 * @param {Element} node - A DOM element.
